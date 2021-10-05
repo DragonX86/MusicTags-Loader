@@ -4,10 +4,10 @@ from pathlib import Path
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QThread, pyqtSlot
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
-from audio.audioWorker import AudioWorker
-from audio.musicSingleton import MusicSingleton
+from utils.musicSingleton import MusicSingleton
+from utils.audioWorker import AudioWorker
 
 mp3_genre = ["Rap", "Rock"]
 
@@ -61,12 +61,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def result_button_click(self):
         if self.m3u_selected:
             music_info = MusicSingleton()
+
             music_info.set_artist(self.ui.artistAlbum_lineEdit.text())
             music_info.set_album_name(self.ui.nameAlbum_lineEdit.text())
             music_info.set_genre(self.ui.genre_combobox.currentText())
             music_info.set_year(self.ui.yearAlbum_lineEdit.text())
 
             self.thread = QThread()
+
             self.worker = AudioWorker(
                 album_folder_path=self.folder_path,
                 cover_album_path=self.cover_path,
@@ -82,7 +84,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def finished_signal_handler(self):
-        print("track finished")
+        msgBox = QMessageBox()
+
+        msg.setWindowTitle("Сообщение о завершении")
+        msg.setText("Все файлы успешно обработаны!")
+
+        msgBox.exec()
 
 
 if __name__ == '__main__':
