@@ -47,8 +47,12 @@ def found_file(download_path: Path, file_name: str) -> Path:
         '/': r'(_)*',
     }
 
+    regular_str = f'^{multiple_replace(file_name, replace_values)}$'
+
     for audio_file in download_path.glob('*.mp3'):
-        if re.search(multiple_replace(file_name, replace_values), audio_file.stem) is None:
+        # if re.match(r'\d{2}', audio_file.stem) is not None:
+        #     continue
+        if re.search(regular_str, audio_file.stem) is None:
             continue
         return audio_file
 
