@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from utils.musicSingleton import MusicSingleton
 from utils.audioWorker import AudioWorker
 
-mp3_genre = ["Rap", "Rock"]
+mp3_genre = ["Rap", "Rock", "Electronic"]
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -42,9 +42,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.folder_path = Path(folder)
         self.folder_selected = True
 
+        self.ui.artistAlbum_lineEdit.setText(folder.split('/')[-2])
+        self.ui.nameAlbum_lineEdit.setText(folder.split('/')[-1])
+
     def coverAlbum_button_click(self):
-        files_filter = "JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png)"
-        cover = QFileDialog.getOpenFileName(None, 'Select a image', str(self.folder_path), files_filter)
+        files_filter = "Image file (*.jpeg *.jpg *.png)"
+        cover = QFileDialog.getOpenFileName(None, 'Выберите обложку для альбома', str(self.folder_path), files_filter)
         self.ui.coverAlbum_lineEdit.setText(cover[0])
 
         self.cover_path = Path(cover[0])
@@ -81,7 +84,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             self.thread.started.connect(self.worker.run)
             self.thread.start()
-
+        
     @pyqtSlot()
     def finished_signal_handler(self):
         msgBox = QMessageBox()
