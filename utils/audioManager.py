@@ -14,7 +14,7 @@ class AudioManager:
         def __get_name(artists_part, title_part):
             if "feat" in artists_part:
                 if "feat" not in title_part:
-                    result = re.search(r'feat\. .*', artists_part)
+                    result = re.search(r'feat\.* .*', artists_part)
                     return f"{title_part} ({result.group(0)})"
                 else:
                     return title_part
