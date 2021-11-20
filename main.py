@@ -86,8 +86,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def finished_signal_handler(self):
         msgBox = QMessageBox()
 
-        msg.setWindowTitle("Сообщение о завершении")
-        msg.setText("Все файлы успешно обработаны!")
+        msgBox.setWindowTitle("Сообщение о завершении")
+        msgBox.setText("Все файлы успешно обработаны!")
 
         msgBox.exec()
 
